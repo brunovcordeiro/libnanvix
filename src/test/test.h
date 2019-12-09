@@ -30,7 +30,7 @@
 	/**
 	 * @brief Number of iterations in stress tests.
 	 */
-	#define NITERATIONS 10
+	#define NITERATIONS 100000
 
 	/**
 	 * @brief Number of threads to spawn in stress tests.
@@ -69,6 +69,7 @@
 	extern void test_sync(void);
 	extern void test_mailbox(void);
 	extern void test_portal(void);
+	extern void test_kportal_bug(void);
 
 	/**@}*/
 
