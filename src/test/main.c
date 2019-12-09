@@ -121,6 +121,9 @@ void ___start(int argc, const char *argv[])
 	#if __TARGET_HAS_PORTAL
 		test_portal();
 	#endif
+	#if __TARGET_HAS_PORTAL
+		test_kportal_bug();
+	#endif
 
 	/* Halt. */
 	kshutdown();
