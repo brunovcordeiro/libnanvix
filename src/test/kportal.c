@@ -257,7 +257,6 @@ static void test_api_kportal_bug(void)
 
 	local = knode_get_num();
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
-	kprintf("Begin test\n");
 
 	test_assert((portal_in = kportal_create(local)) >= 0);
 	test_assert((portal_out = kportal_open(local, remote)) >= 0);
@@ -267,7 +266,6 @@ static void test_api_kportal_bug(void)
 		{
 			kmemset(message, i, 1024);
 
-			kprintf("Iter Master: %d\n", i);
 			test_assert(
 				kportal_write(
 					portal_out,
@@ -280,8 +278,6 @@ static void test_api_kportal_bug(void)
 		for (unsigned i = 0; i < NITERATIONS; i++)
 		{
 			kmemset(message, 0, 1024);
-			kprintf("Iter Slave: %d\n", i);
-			// O allow já existe na cache?
 			test_assert(kportal_allow(portal_in, remote) == 0);
 			test_assert(kportal_read(portal_in, message, 1024) == 1024);
 
@@ -289,7 +285,6 @@ static void test_api_kportal_bug(void)
 				test_assert(message[j] == (char)(i));
 		}
 	}
-	kprintf("DONE!\n");
 	test_assert(kportal_close(portal_out) == 0);
 }
 
