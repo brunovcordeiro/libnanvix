@@ -247,6 +247,52 @@ static void test_api_portal_read_write(void)
 	test_assert(kportal_unlink(portal_in) == 0);
 }
 
+static void test_api_kportal_bug(void)
+{
+	int local;
+	int remote;
+	int portal_in;
+	int portal_out;
+	char message[1024];
+
+	local = knode_get_num();
+	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
+	kprintf("Begin test\n");
+
+	test_assert((portal_in = kportal_create(local)) >= 0);
+	test_assert((portal_out = kportal_open(local, remote)) >= 0);
+	if (local == MASTER_NODENUM)
+	{
+		for (unsigned i = 0; i < NITERATIONS; i++)
+		{
+			kmemset(message, i, 1024);
+
+			kprintf("Iter Master: %d\n", i);
+			test_assert(
+				kportal_write(
+					portal_out,
+					message,
+					1024
+				) == 1024
+			);
+		}
+	} else {
+		for (unsigned i = 0; i < NITERATIONS; i++)
+		{
+			kmemset(message, 0, 1024);
+			kprintf("Iter Slave: %d\n", i);
+			// O allow já existe na cache?
+			test_assert(kportal_allow(portal_in, remote) == 0);
+			test_assert(kportal_read(portal_in, message, 1024) == 1024);
+
+			for (unsigned j = 0; j < 1024; ++j)
+				test_assert(message[j] == (char)(i));
+		}
+	}
+	kprintf("DONE!\n");
+	test_assert(kportal_close(portal_out) == 0);
+}
+
 /*============================================================================*
  * API Test: Multiple create / open                                           *
  *============================================================================*/
@@ -766,6 +812,11 @@ static struct test portal_tests_api[] = {
 	{ NULL,                                  NULL                                                      },
 };
 
+static struct test kportal_tests_api[] = {
+	{ test_api_kportal_bug, 				  "[test][portal][api] kportal bug [passed]\n" },
+	{ NULL,                          		  NULL                                         },
+};
+
 /**
  * @brief Unit tests.
  */
@@ -827,4 +878,24 @@ void test_portal(void)
 	}
 }
 
+void test_kportal_bug(void)
+{
+	int nodenum;
+
+	nodenum = knode_get_num();
+
+	if (nodenum == MASTER_NODENUM || nodenum == SLAVE_NODENUM)
+	{
+		/* API Tests */
+		if (nodenum == MASTER_NODENUM)
+			nanvix_puts("--------------------------------------------------------------------------------\n");
+		for (unsigned i = 0; kportal_tests_api[i].test_fn != NULL; i++)
+		{
+			kportal_tests_api[i].test_fn();
+
+			if (nodenum == MASTER_NODENUM)
+				nanvix_puts(kportal_tests_api[i].name);
+		}
+	}
+}
 #endif /* __TARGET_HAS_PORTAL */
