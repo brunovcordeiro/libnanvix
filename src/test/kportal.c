@@ -75,7 +75,7 @@ static void test_api_portal_create_unlink(void)
 	test_assert(kportal_unlink(portalid) == 0);
 
 	test_assert((portalid = kportal_create(local)) >= 0);
-	test_assert(kportal_allow(portalid, remote) >= 0);
+	test_assert(kportal_allow(portalid, remote, 0) >= 0);
 	test_assert(kportal_unlink(portalid) == 0);
 }
 
@@ -95,7 +95,7 @@ static void test_api_portal_open_close(void)
 	local  = knode_get_num();
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
 
-	test_assert((portalid = kportal_open(local, remote)) >= 0);
+	test_assert((portalid = kportal_open(local, remote, 0)) >= 0);
 	test_assert(kportal_close(portalid) == 0);
 }
 
@@ -118,7 +118,7 @@ static void test_api_portal_get_volume(void)
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
 
 	test_assert((portal_in = kportal_create(local)) >= 0);
-	test_assert((portal_out = kportal_open(local, remote)) >= 0);
+	test_assert((portal_out = kportal_open(local, remote, (portal_in % PORTAL_PORT_NR))) >= 0);
 
 		test_assert(kportal_ioctl(portal_in, PORTAL_IOCTL_GET_VOLUME, &volume) == 0);
 		test_assert(volume == 0);
@@ -149,7 +149,7 @@ static void test_api_portal_get_latency(void)
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
 
 	test_assert((portal_in = kportal_create(local)) >= 0);
-	test_assert((portal_out = kportal_open(local, remote)) >= 0);
+	test_assert((portal_out = kportal_open(local, remote, (portal_in % PORTAL_PORT_NR))) >= 0);
 
 		test_assert(kportal_ioctl(portal_in, PORTAL_IOCTL_GET_LATENCY, &latency) == 0);
 		test_assert(latency == 0);
@@ -182,7 +182,7 @@ static void test_api_portal_read_write(void)
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
 
 	test_assert((portal_in = kportal_create(local)) >= 0);
-	test_assert((portal_out = kportal_open(local, remote)) >= 0);
+	test_assert((portal_out = kportal_open(local, remote, (portal_in % PORTAL_PORT_NR))) >= 0);
 
 	test_assert(kportal_ioctl(portal_in, PORTAL_IOCTL_GET_VOLUME, &volume) == 0);
 	test_assert(volume == 0);
@@ -200,7 +200,7 @@ static void test_api_portal_read_write(void)
 		{
 			kmemset(message, 0, MESSAGE_SIZE);
 
-			test_assert(kportal_allow(portal_in, remote) == 0);
+			test_assert(kportal_allow(portal_in, remote, (portal_out % PORTAL_PORT_NR)) == 0);
 			test_assert(kportal_aread(portal_in, message, MESSAGE_SIZE) == MESSAGE_SIZE);
 			test_assert(kportal_wait(portal_in) == 0);
 
@@ -224,7 +224,7 @@ static void test_api_portal_read_write(void)
 
 			kmemset(message, 0, MESSAGE_SIZE);
 
-			test_assert(kportal_allow(portal_in, remote) == 0);
+			test_assert(kportal_allow(portal_in, remote, (portal_out % PORTAL_PORT_NR)) == 0);
 			test_assert(kportal_aread(portal_in, message, MESSAGE_SIZE) == MESSAGE_SIZE);
 			test_assert(kportal_wait(portal_in) == 0);
 
@@ -269,7 +269,7 @@ static void test_api_portal_multiple_create_open(void)
 		test_assert((portal_in[i] = kportal_create(local)) >= 0);
 
 	for (unsigned i = 0; i < TEST_NR_OUTPUT_PORTALS; ++i)
-		test_assert((portal_out[i] = kportal_open(local, remote)) >= 0);
+		test_assert((portal_out[i] = kportal_open(local, remote, 0)) >= 0);
 
 	/* Deletion of the created virtual portals. */
 	for (unsigned i = 0; i < TEST_NR_INPUT_PORTALS; ++i)
@@ -303,7 +303,7 @@ static void test_api_portal_multiplex(void)
 	for (unsigned i = 0; i < TEST_NR_PORTAL_PAIRS; ++i)
 	{
 		test_assert((portal_in[i] = kportal_create(local)) >= 0);
-		test_assert((portal_out[i] = kportal_open(local, remote)) >= 0);
+		test_assert((portal_out[i] = kportal_open(local, remote, portal_in[i] % PORTAL_PORT_NR)) >= 0);
 	}
 
 	/* Multiple write/read operations to test multiplexation. */
@@ -313,7 +313,7 @@ static void test_api_portal_multiplex(void)
 		{
 			kmemset(message, (i - 1), MESSAGE_SIZE);
 
-			test_assert(kportal_allow(portal_in[i], remote) == 0);
+			test_assert(kportal_allow(portal_in[i], remote, portal_out[i] % PORTAL_PORT_NR) == 0);
 			test_assert(kportal_aread(portal_in[i], message, MESSAGE_SIZE) == MESSAGE_SIZE);
 			test_assert(kportal_wait(portal_in[i]) == 0);
 
@@ -337,7 +337,7 @@ static void test_api_portal_multiplex(void)
 
 			kmemset(message, i, MESSAGE_SIZE);
 
-			test_assert(kportal_allow(portal_in[i], remote) == 0);
+			test_assert(kportal_allow(portal_in[i], remote, portal_out[i] % PORTAL_PORT_NR) == 0);
 			test_assert(kportal_aread(portal_in[i], message, MESSAGE_SIZE) == MESSAGE_SIZE);
 			test_assert(kportal_wait(portal_in[i]) == 0);
 
@@ -390,8 +390,8 @@ static void test_api_portal_allow(void)
 
 	test_assert((portal_in1 = kportal_create(local)) >= 0);
 	test_assert((portal_in2 = kportal_create(local)) >= 0);
-	test_assert((portal_out1 = kportal_open(local, remote)) >= 0);
-	test_assert((portal_out2 = kportal_open(local, remote)) >= 0);
+	test_assert((portal_out1 = kportal_open(local, remote, portal_in1 % PORTAL_PORT_NR)) >= 0);
+	test_assert((portal_out2 = kportal_open(local, remote, portal_in2 % PORTAL_PORT_NR)) >= 0);
 
 	if (local == SLAVE_NODENUM)
 	{
@@ -403,11 +403,11 @@ static void test_api_portal_allow(void)
 	else
 	{
 		/* Allowing tests. */
-		test_assert(kportal_allow(portal_in1, remote) == 0);
+		test_assert(kportal_allow(portal_in1, remote, portal_out1 % PORTAL_PORT_NR) == 0);
 		test_assert(kportal_aread(portal_in2, message, MESSAGE_SIZE) == -EACCES);
 		test_assert(kportal_aread(portal_in1, message, MESSAGE_SIZE) == MESSAGE_SIZE);
 		test_assert(kportal_aread(portal_in1, message, MESSAGE_SIZE) == -EACCES);
-		test_assert(kportal_allow(portal_in2, remote) == 0);
+		test_assert(kportal_allow(portal_in2, remote, portal_out2 % PORTAL_PORT_NR) == 0);
 		test_assert(kportal_aread(portal_in1, message, MESSAGE_SIZE) == -EACCES);
 		test_assert(kportal_aread(portal_in2, message, MESSAGE_SIZE) == MESSAGE_SIZE);
 	}
@@ -467,7 +467,7 @@ static void test_fault_portal_bad_unlink(void)
 	local = knode_get_num();
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
 
-	test_assert((portalid = kportal_open(local, remote)) >= 0);
+	test_assert((portalid = kportal_open(local, remote, 0)) >= 0);
 	test_assert(kportal_unlink(portalid) == -EBADF);
 	test_assert(kportal_close(portalid) == 0);
 }
@@ -504,12 +504,12 @@ static void test_fault_portal_invalid_open(void)
 
 	local = knode_get_num();
 
-	test_assert(kportal_open(local, -1) == -EINVAL);
-	test_assert(kportal_open(-1, local + 1) == -EINVAL);
-	test_assert(kportal_open(-1, -1) == -EINVAL);
-	test_assert(kportal_open(local, PROCESSOR_NOC_NODES_NUM) == -EINVAL);
-	test_assert(kportal_open(PROCESSOR_NOC_NODES_NUM, local + 1) == -EINVAL);
-	test_assert(kportal_open(local, local) == -EINVAL);
+	test_assert(kportal_open(local, -1, 0) == -EINVAL);
+	test_assert(kportal_open(-1, local + 1, 0) == -EINVAL);
+	test_assert(kportal_open(-1, -1, 0) == -EINVAL);
+	test_assert(kportal_open(local, PROCESSOR_NOC_NODES_NUM, 0) == -EINVAL);
+	test_assert(kportal_open(PROCESSOR_NOC_NODES_NUM, local + 1, 0) == -EINVAL);
+	test_assert(kportal_open(local, local, 0) == -EINVAL);
 }
 
 /*============================================================================*
@@ -561,7 +561,7 @@ static void test_fault_portal_double_close(void)
 	local = knode_get_num();
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
 
-	test_assert((portalid = kportal_open(local, remote)) >= 0);
+	test_assert((portalid = kportal_open(local, remote, 0)) >= 0);
 	test_assert(kportal_close(portalid) == 0);
 	test_assert(kportal_close(portalid) == -EBADF);
 }
@@ -582,8 +582,8 @@ static void test_fault_portal_bad_allow(void)
 	local = knode_get_num();
 	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
 
-	test_assert((portalid = kportal_open(local, remote)) >= 0);
-	test_assert(kportal_allow(portalid, remote) == -EBADF);
+	test_assert((portalid = kportal_open(local, remote, 0)) >= 0);
+	test_assert(kportal_allow(portalid, remote, 0) == -EBADF);
 	test_assert(kportal_close(portalid) == 0);
 }
 

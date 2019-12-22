@@ -61,7 +61,7 @@ int kportal_create(int local)
  * @details The kportal_allow() function allow read data from a input portal
  * associated with the NoC node @p remote.
  */
-int kportal_allow(int portalid, int remote)
+int kportal_allow(int portalid, int remote, int remote_port)
 {
 	int ret;
 
@@ -69,10 +69,11 @@ int kportal_allow(int portalid, int remote)
 	if (remote == knode_get_num())
 		return (-EINVAL);
 
-	ret = kcall2(
+	ret = kcall3(
 		NR_portal_allow,
 		(word_t) portalid,
-		(word_t) remote
+		(word_t) remote,
+		(word_t) remote_port
 	);
 
 	return (ret);
@@ -86,7 +87,7 @@ int kportal_allow(int portalid, int remote)
  * @details The kportal_open() function opens an output portal to the remote
  * NoC node @p remote and attaches it to the local NoC node @p local.
  */
-int kportal_open(int local, int remote)
+int kportal_open(int local, int remote, int remote_port)
 {
 	int ret;
 	int nodenum;
@@ -101,10 +102,11 @@ int kportal_open(int local, int remote)
 	if (remote == nodenum)
 		return (-EINVAL);
 
-	ret = kcall2(
+	ret = kcall3(
 		NR_portal_open,
 		(word_t) local,
-		(word_t) remote
+		(word_t) remote,
+		(word_t) remote_port
 	);
 
 	return (ret);
