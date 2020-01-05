@@ -63,7 +63,7 @@ int main(int argc, const char *argv[])
 {
 	UNUSED(argc);
 	UNUSED(argv);
-	
+
 	int capacidade = 0;
 	int local;
 	local = knode_get_num();
@@ -94,4 +94,10 @@ int main(int argc, const char *argv[])
 	kprintf("termine da pilha %d");
 
 
+}
+
+void ___start(int argc, const char *argv[])
+{
+	((void) argc);
+	((void) argv);
 }
