@@ -32,13 +32,13 @@
 #===============================================================================
 
 # Builds Everything
-all: all-libnanvix all-test
+all: all-Mestrado 
 
 # Cleans Build Objects
-clean: clean-libnanvix clean-test
+clean: clean-Mestrado 
 
 # Cleans Everything
-distclean: distclean-libnanvix distclean-test
+distclean: distclean-Mestrado 
 
 #===============================================================================
 #
@@ -72,3 +72,20 @@ clean-libnanvix:
 # Cleans User Libraries Build
 distclean-libnanvix:
 	$(MAKE) -C libnanvix distclean
+
+	
+#===============================================================================
+#
+#===============================================================================
+
+# Builds User Libraries
+all-Mestrado:
+	$(MAKE) -C Mestrado all
+
+# Cleans User Libraries Build Objects
+clean-Mestrado:
+	$(MAKE) -C Mestrado clean
+
+# Cleans User Libraries Build
+distclean-Mestrado:
+	$(MAKE) -C Mestrado distclean
