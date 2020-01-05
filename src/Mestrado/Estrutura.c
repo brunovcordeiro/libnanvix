@@ -81,12 +81,12 @@ void ___start(int argc, const char *argv[])
     ((void) argc);
 	((void) argv);
 
-		struct Pilha minhapilha;
+		//struct Pilha minhapilha;
 		int capacidade = 0;
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
 		capacidade =  knode_get_num() == MASTER_NODENUM ? 1500 : 950;
 
-		float valor = 10;
+		//float valor = 10;
 		//criarpilha(&minhapilha, capacidade);
 
 		/*for (int i = 0; i < capacidade; i++)
