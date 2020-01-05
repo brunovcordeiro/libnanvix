@@ -59,27 +59,23 @@ void nanvix_puts(const char *str)
  * @param argc Argument counter.
  * @param argv Argument variables.
  */
-int main(int argc, const char *argv[])
-
-    int nodenum;
-
-	nodenum = knode_get_num();
-    kprintf("%d",nodenum);
+int main(int argc, const char *argv[]){
 
 	int capacidade = 0;
-		int local  = knode_get_num();
-		kprintf("%d",local);
-		if (local == MASTER_NODENUM){
+	int local;
+	local = knode_get_num();
+	kprintf("%d",local);
+	if (local == MASTER_NODENUM){
 			capacidade = 1500;
 			kprintf("limite da pilha %d", capacidade);
 
-		}
-		else
-		{
+	}
+	else
+	{
 			capacidade = 950;
 			kprintf("limite da pilha %d", capacidade);
 		
-		}
+	}
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
 
 		//float valor = 10;
@@ -92,7 +88,7 @@ int main(int argc, const char *argv[])
 				if( capacidade % i == 0 ) kprintf("emilhando");
 				empilhar (&minhapilha, valor);
 			}*/
-		kprintf("termine da pilha %d");
+	kprintf("termine da pilha %d");
 
 
 }
