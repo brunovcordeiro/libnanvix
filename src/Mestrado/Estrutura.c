@@ -86,14 +86,14 @@ void ___start(int argc, const char *argv[])
 		kprintf("%d",local);
 		if (local == MASTER_NODENUM){
 			capacidade = 1500;
-			if (capacidade = 1500)
+			if (capacidade == 1500)
 				kprintf("limite da pilha 1500");
 
 		}
 		else
 		{
 			capacidade = 950;
-						if (capacidade = 950)
+						if (capacidade == 950)
 
 			kprintf("limite da pilha 950");
 		
