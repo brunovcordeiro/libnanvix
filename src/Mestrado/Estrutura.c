@@ -59,8 +59,11 @@ void nanvix_puts(const char *str)
  * @param argc Argument counter.
  * @param argv Argument variables.
  */
-int main(int argc, const char *argv[]){
-
+int main(int argc, const char *argv[])
+{
+	UNUSED(argc);
+	UNUSED(argv);
+	
 	int capacidade = 0;
 	int local;
 	local = knode_get_num();
