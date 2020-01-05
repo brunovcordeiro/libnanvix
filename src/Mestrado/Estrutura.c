@@ -60,28 +60,13 @@ void nanvix_puts(const char *str)
  * @param argv Argument variables.
  */
 int main(int argc, const char *argv[])
-{
-	UNUSED(argc);
-	UNUSED(argv);
 
     int nodenum;
-
-	((void) argc);
-	((void) argv);
 
 	nodenum = knode_get_num();
     kprintf("%d",nodenum);
 
-
-}
-
-void ___start(int argc, const char *argv[])
-{
-    ((void) argc);
-	((void) argv);
-
-		//struct Pilha minhapilha;
-		int capacidade = 0;
+	int capacidade = 0;
 		int local  = knode_get_num();
 		kprintf("%d",local);
 		if (local == MASTER_NODENUM){
@@ -110,4 +95,4 @@ void ___start(int argc, const char *argv[])
 		printf("termine da pilha %d");
 
 
-}	
+}
