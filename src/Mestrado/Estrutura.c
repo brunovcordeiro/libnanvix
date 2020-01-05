@@ -85,14 +85,8 @@ void ___start(int argc, const char *argv[])
 		int local  = knode_get_num();
 		kprintf("%d",local);
 
-		if (local == MASTER_NODENUM)
-		{
 			kprintf("\n SOU O MASTER \n");
-		}
 
-		else{
-			kprintf("\n SOU O SLAVE \n");
-		}
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 1500 : 950;
 
