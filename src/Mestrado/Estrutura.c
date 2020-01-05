@@ -81,7 +81,7 @@ void ___start(int argc, const char *argv[])
 	((void) argv);
 
 		//struct Pilha minhapilha;
-		int capacidade = 0;
+		//int capacidade = 0;
 		int local  = knode_get_num();
 		kprintf("%d",local);
 
