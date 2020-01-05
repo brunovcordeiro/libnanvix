@@ -79,7 +79,7 @@ int main(int argc, const char *argv[])
 			capacidade = 950;
 			printf("limite da pilha %d", capacidade);
 		
-
+		}
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
 
 		//float valor = 10;
