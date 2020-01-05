@@ -66,14 +66,8 @@ int main(int argc, const char *argv[])
 	UNUSED(argc);
 	UNUSED(argv);
 
-    int nodenum;
-
 	((void) argc);
 	((void) argv);
-
-	nodenum = knode_get_num();
-    kprintf("%d",nodenum);
-	return 0;
 
 }
 void ___start(int argc, const char *argv[])
