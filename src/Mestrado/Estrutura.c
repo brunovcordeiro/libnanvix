@@ -87,15 +87,15 @@ void ___start(int argc, const char *argv[])
 		if (local == MASTER_NODENUM){
 			capacidade = 1500;
 			if (capacidade == 1500)
-				kprintf("limite da pilha 1500");
+				kprintf("limite da pilha 1500, %d", capacidade);
 
 		}
 		else
 		{
 			capacidade = 950;
-						if (capacidade == 950)
+			if (capacidade == 950)
 
-			kprintf("limite da pilha 950");
+			kprintf("limite da pilha 950 , %d", capacidade);
 		
 
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
