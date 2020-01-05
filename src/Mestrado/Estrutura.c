@@ -81,18 +81,18 @@ void ___start(int argc, const char *argv[])
 	((void) argv);
 
 		//struct Pilha minhapilha;
-		int capacidade = 0;
+		int capacidadeLocal, capacidadeMaster = 0;
 		int local  = knode_get_num();
 		kprintf("%d",local);
 		if (local == MASTER_NODENUM){
-			capacidade = 1500;
-			kprintf("limite da pilha %d", capacidade);
+			capacidadeMaster = 1500;
+			kprintf("limite da pilha %d", capacidadeMaster);
 
 		}
 		else
 		{
-			capacidade = 950;
-			kprintf("limite da pilha %d", capacidade);
+			capacidadeLocal = 950;
+			kprintf("limite da pilha %d", capacidadeLocal);
 		}
 
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
