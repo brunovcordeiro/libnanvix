@@ -96,7 +96,7 @@ void ___start(int argc, const char *argv[])
 				if( capacidade % i == 0 ) kprintf("emilhando");
 				empilhar (&minhapilha, valor);
 			}*/
-			kprintf("limite da pilha");
+			kprintf("limite da pilha %d", capacidade);
 
 	kshutdown();
 	UNREACHABLE();
