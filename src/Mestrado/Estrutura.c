@@ -71,13 +71,13 @@ int main(int argc, const char *argv[])
 		kprintf("%d",local);
 		if (local == MASTER_NODENUM){
 			capacidade = 1500;
-			printf("limite da pilha %d", capacidade);
+			kprintf("limite da pilha %d", capacidade);
 
 		}
 		else
 		{
 			capacidade = 950;
-			printf("limite da pilha %d", capacidade);
+			kprintf("limite da pilha %d", capacidade);
 		
 		}
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
@@ -92,7 +92,7 @@ int main(int argc, const char *argv[])
 				if( capacidade % i == 0 ) kprintf("emilhando");
 				empilhar (&minhapilha, valor);
 			}*/
-		printf("termine da pilha %d");
+		kprintf("termine da pilha %d");
 
 
 }
