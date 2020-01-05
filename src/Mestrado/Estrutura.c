@@ -107,6 +107,7 @@ void ___start(int argc, const char *argv[])
 				if( capacidade % i == 0 ) kprintf("emilhando");
 				empilhar (&minhapilha, valor);
 			}*/
+		}
 		kprintf("termine da pilha %d");
 
 
