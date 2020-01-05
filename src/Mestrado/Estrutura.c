@@ -97,6 +97,7 @@ void ___start(int argc, const char *argv[])
 			}*/
 			kprintf("limite da pilha %d", capacidade);
 
+    while(0);
 	kshutdown();
 	UNREACHABLE();
 }	
