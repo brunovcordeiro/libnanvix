@@ -66,8 +66,7 @@ int main(int argc, const char *argv[])
 	UNUSED(argc);
 	UNUSED(argv);
 
-	((void) argc);
-	((void) argv);
+	return (0);
 
 }
 void ___start(int argc, const char *argv[])
