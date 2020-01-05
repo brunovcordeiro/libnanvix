@@ -87,15 +87,15 @@ void ___start(int argc, const char *argv[])
 		capacidade =  knode_get_num() == MASTER_NODENUM ? 1500 : 950;
 
 		float valor = 10;
-		criarpilha(&minhapilha, capacidade);
+		//criarpilha(&minhapilha, capacidade);
 
-		for (int i = 0; i < capacidade; i++)
+		/*for (int i = 0; i < capacidade; i++)
 			if( estacheia( &minhapilha ) == 1 )
 				kprintf("\nPILHA CHEIA! \n");
 			else {
 				if( capacidade % i == 0 ) kprintf("emilhando");
 				empilhar (&minhapilha, valor);
-			}
+			}*/
 			kprintf("limite da pilha");
 
 	kshutdown();
