@@ -85,10 +85,9 @@ void ___start(int argc, const char *argv[])
 		int local  = knode_get_num();
 		kprintf("%d",local);
 
-			kprintf("\n SOU O MASTER \n");
 
 		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
-		//capacidade =  knode_get_num() == MASTER_NODENUM ? 1500 : 950;
+		capacidade =  knode_get_num() == MASTER_NODENUM ? 1500 : 950;
 
 		//float valor = 10;
 		//criarpilha(&minhapilha, capacidade);
@@ -100,7 +99,7 @@ void ___start(int argc, const char *argv[])
 				if( capacidade % i == 0 ) kprintf("emilhando");
 				empilhar (&minhapilha, valor);
 			}*/
-			//kprintf("limite da pilha %d", capacidade);
+		kprintf("limite da pilha %d", capacidade);
 
 
 }	
