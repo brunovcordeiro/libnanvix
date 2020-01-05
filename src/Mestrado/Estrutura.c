@@ -61,8 +61,7 @@ void nanvix_puts(const char *str)
  */
 int main(int argc, const char *argv[])
 {
-	UNUSED(argc);
-	UNUSED(argv);
+
 
 	int capacidade = 0;
 	int local;
@@ -93,7 +92,8 @@ int main(int argc, const char *argv[])
 			}*/
 	kprintf("termine da pilha %d");
 
-
+	UNUSED(argc);
+	UNUSED(argv);
 }
 
 void ___start(int argc, const char *argv[])
