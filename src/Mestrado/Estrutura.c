@@ -1,4 +1,3 @@
-
 #include <nanvix/sys/dev.h>
 #include <nanvix/sys/noc.h>
 #include <nanvix/sys/mailbox.h>
@@ -75,61 +74,29 @@ int main(int argc, const char *argv[])
 
 
 }
+
 void ___start(int argc, const char *argv[])
 {
     ((void) argc);
 	((void) argv);
 
-   	int local;
-	int remote;
-	int mbx_in;
-	int mbx_out;
+		//struct Pilha minhapilha;
+		int capacidade = 0;
+		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
+		capacidade =  knode_get_num() == MASTER_NODENUM ? 1500 : 950;
 
-	char message[MAILBOX_MSG_SIZE];
+		//float valor = 10;
+		//criarpilha(&minhapilha, capacidade);
 
-	local  = knode_get_num();
-	remote = (local == MASTER_NODENUM) ? SLAVE_NODENUM : MASTER_NODENUM;
+		/*for (int i = 0; i < capacidade; i++)
+			if( estacheia( &minhapilha ) == 1 )
+				kprintf("\nPILHA CHEIA! \n");
+			else {
+				if( capacidade % i == 0 ) kprintf("emilhando");
+				empilhar (&minhapilha, valor);
+			}*/
+			kprintf("limite da pilha %d", capacidade);
 
-	test_assert((mbx_in = kmailbox_create(local)) >= 0);
-	test_assert((mbx_out = kmailbox_open(remote)) >= 0);
-
-	if (local == MASTER_NODENUM)
-	{
-        int i;
-
-            for  (i = 0; i < 15; i++) {
-                kmemset(message, local, MAILBOX_MSG_SIZE);
-
-                test_assert(kmailbox_awrite(mbx_out, message, MAILBOX_MSG_SIZE) == MAILBOX_MSG_SIZE);
-
-                kmemset(message, 0, MAILBOX_MSG_SIZE);
-
-                test_assert(kmailbox_aread(mbx_in, message, MAILBOX_MSG_SIZE) == MAILBOX_MSG_SIZE);
-                test_assert(kmailbox_wait(mbx_in) == 0);
-
-                kprintf("Sou o %d e recebi do %d" , local , message[1] );
-                test_assert(kmailbox_close(mbx_out) == 0);
-                remote++;
-                test_assert((mbx_out = kmailbox_open(remote)) >= 0);
-		}
-	}
-	else
-	{
-	        kmemset(message, local, MAILBOX_MSG_SIZE);
-
-			test_assert(kmailbox_aread(mbx_in, message, MAILBOX_MSG_SIZE) == MAILBOX_MSG_SIZE);
-			test_assert(kmailbox_wait(mbx_in) == 0);
-
-			kprintf("Sou o %d e recebi do %d" , local , message[1] );
-
-			kmemset(message, local, MAILBOX_MSG_SIZE);
-
-			test_assert(kmailbox_awrite(mbx_out, message, MAILBOX_MSG_SIZE) == MAILBOX_MSG_SIZE);
-            test_assert(kmailbox_close(mbx_out) == 0);
-
-		
-	}
-
-    	test_assert(kmailbox_unlink(mbx_in) == 0);
-
+	kshutdown();
+	UNREACHABLE();
 }	
