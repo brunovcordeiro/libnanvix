@@ -3,6 +3,8 @@
 #include <nanvix/sys/mailbox.h>
 #include <posix/errno.h>
 #include "test.h"
+#include "Pilha.h"
+
 
 #define SLAVE_NODENUM  8
 #define MASTER_NODENUM 0
