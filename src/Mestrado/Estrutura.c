@@ -80,38 +80,24 @@ void ___start(int argc, const char *argv[])
     ((void) argc);
 	((void) argv);
 
-		//struct Pilha minhapilha;
+		struct Pilha minhapilha;
 		int capacidade = 0;
 		int local  = knode_get_num();
 		kprintf("%d",local);
-		if (local == MASTER_NODENUM){
-			capacidade = 1500;
-			if (capacidade == 1500)
-				kprintf("limite da pilha 1500, %d", capacidade);
 
-		}
-		else
-		{
-			capacidade = 950;
-			if (capacidade == 950)
+		capacidade =  local == MASTER_NODENUM ? 300000000 : 93750;
 
-			kprintf("limite da pilha 950 , %d", capacidade);
-		
+		float valor = 10;
+		criarpilha(&minhapilha, capacidade);
 
-		//capacidade =  knode_get_num() == MASTER_NODENUM ? 300000000 : 93750;
-
-		//float valor = 10;
-		//criarpilha(&minhapilha, capacidade);
-
-		/*for (int i = 0; i < capacidade; i++)
+		for (int i = 0; i < capacidade; i++)
 			if( estacheia( &minhapilha ) == 1 )
 				kprintf("\nPILHA CHEIA! \n");
 			else {
 				if( capacidade % i == 0 ) kprintf("emilhando");
 				empilhar (&minhapilha, valor);
-			}*/
+			}
 		}
-		kprintf("termine da pilha %d");
-
+		kprintf("termine da pilha");
 
 }	
