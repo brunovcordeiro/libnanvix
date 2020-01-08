@@ -87,7 +87,7 @@ void ___start(int argc, const char *argv[])
 		int local  = knode_get_num();
 		kprintf("%d",local);
 
-		capacidade =  local == MASTER_NODENUM ? 300000000 : 93750;
+		capacidade =  local == MASTER_NODENUM ? 30000 : 9375;
 
 		float valor = 10;
 		criarpilha(&minhapilha, capacidade);
